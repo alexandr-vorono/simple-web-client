@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Пример простого клиента</title>
+</head>
+<body>
+<section>
+  <h2>Форма отправляющая запрос методом GET к ресурсу http://127.0.0.1:8001/</h2>
+
+  <form action="http://127.0.0.1:8001/">
+    <input type="text" name="first_name" placeholder="Имя" />
+    <input type="text" name="last_name" placeholder="Фамилия" />
+
+    <input type="submit" value="Найти">
+  </form>
+
+  <p>Заметки о запросе ресурса методом GET с формы</p>
+
+  <ul>
+    <li>значения всех полей ввода передаётся через строку запроса (<i>en.</i> query string parameters)</li>
+    <li>
+      параметры в строке запроса кодируются специальным методом, тип urlencoded
+
+      <ul>
+        <li><a href="http://en.wikipedia.org/wiki/Percent-encoding">http://en.wikipedia.org/wiki/Percent-encoding</a></li>
+        <li>
+          Декодировать <i>urlencoded</i> строку в JavaScript можно функцией
+          <pre>decodeURIComponent('first_name=%D0%92...')</pre>
+        </li>
+      </ul>
+    </li>
+    <li>форма подразумевает метод GET, если иное не указано атрибудом <code>method</code> у тега формы</li>
+  </ul>
+</section>
+<section>
+  <h2>Форма отправляющая запрос методом POST к ресурсу http://127.0.0.1:8001/</h2>
+  <form method="post" action="http://127.0.0.1:8001/">
+    <input type="text" name="username" placeholder="Логин" />
+
+    <input type="password" name="password" placeholder="Пароль" />
+
+    <input type="submit">
+  </form>
+
+  <p>Заметки о посылаемом запросе:</p>
+
+  <ul>
+    <li>
+      Поле Content-Type в заголовке HTTP сообщения будет
+      <pre>application/x-www-form-urlencoded</pre>
+    </li>
+    <li>
+      Тело запроса будет содержать:
+      <pre>first_name=%D0%92%D0%B0%D1%81%D1%8F&last_name=%D0%A8%D0%BC%D0%B8%D0%B4%D1%82</pre>
+    </li>
+    <li>
+      Задание: изучить метод кодирования <code>multipart/form-data</code>.
+      <ul>
+        <li>
+          Практическая необходимость <code>multipart/form-data</code>: используется для загрузки файлов от клиента к
+          серверу.
+        </li>
+        <li>
+          С чего начать: отправить запрос с формы <code>&lt;form enctype="multipart/form-data">&lt;/form></code> и
+          изучить содержание заголовка и тела запроса.
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Данные с формы использующей недопустимый метод отправляются методом GET</h2>
+
+  <form method="delete" action="http://127.0.0.1:8001/">
+    <input type="text" name="document_id" placeholder="Номер документа">
+    <input type="submit" value="Удалить">
+  </form>
+
+  <ul>
+    <li>Допустимыми для формы являются только два метода: GET и POST.</li>
+  </ul>
+</section>
+</body>
+</html>
